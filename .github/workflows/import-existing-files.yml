@@ -22,7 +22,9 @@ jobs:
           set -euo pipefail
           rm -rf /tmp/repo-import
           mkdir -p /tmp/repo-import
-          tar -xJf .import/archive.tar.xz -C /tmp/repo-import
+          cat .import/part-* > /tmp/archive.tar.xz
+          xz -t /tmp/archive.tar.xz
+          tar -xJf /tmp/archive.tar.xz -C /tmp/repo-import
           rsync -a --delete --exclude='.git/' /tmp/repo-import/ ./
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
